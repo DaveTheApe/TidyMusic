@@ -18,13 +18,32 @@ namespace TidyMusic
             } while (!Directory.Exists(path));
 
             PathDiver pathDiver = new PathDiver(path);
-            foreach(string f in pathDiver.GetMusicFiles())
+            RenameFiles(pathDiver);
+
+            Console.WriteLine("Done...");
+            Console.ReadKey();
+        }
+        
+        static void RenameFiles(PathDiver pathDiver)
+        {
+            foreach (string f in pathDiver.GetMusicFiles())
             {
                 NameFiler nameFiler = new NameFiler(f);
                 Console.WriteLine(nameFiler.ToString());
             }
-            Console.ReadKey();
+
+            if (pathDiver.SubDiverIsEmpty())
+            {
+                return;
+            }
+
+            foreach(PathDiver pd in pathDiver.GetSubDiver())
+            {
+                Console.WriteLine("Diving in: " + pd.GetDirName());
+                RenameFiles(pd);
+            }
         }
+
 
 
         
