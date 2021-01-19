@@ -17,12 +17,20 @@ namespace TidyMusic
             this.title = tfile.Tag.Title;
             this.album = tfile.Tag.Album;
             this.num = PrependZero(tfile.Tag.Track);
-            
         }
 
         public override string ToString()
         {
             return this.num + " " + this.artist + " - " + this.title;
+        }
+
+        public Boolean IsValid()
+        {
+            if(artist == null||title == null||album==null||num ==null)
+            {
+                return false;
+            }
+            return true;
         }
 
         private string PrependZero(uint num)

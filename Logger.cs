@@ -12,7 +12,7 @@ namespace TidyMusic
         {
             DateTime timestamp = DateTime.Now;
             Console.WriteLine(str);
-            LogString.Append(timestamp).Append(str).Append(Environment.NewLine);
+            LogString.Append(timestamp).Append(" " + str).Append(Environment.NewLine);
         }
 
         public static void SaveLog(string path="./tidyMusic.log")
@@ -21,12 +21,18 @@ namespace TidyMusic
             file.Write(LogString.ToString());
             file.Close();
             file.Dispose();
+            Console.WriteLine("Saved Log-File to: "+Path.GetFullPath(path));
         }
 
         public static void RotateLog(string path = "./tidyMusic.log")
         {
+
             if (File.Exists(path))
             {
+                if (File.Exists(path))
+                {
+                    System.IO.File.Delete(path + "_old");
+                }
                 System.IO.File.Move(path, path + "_old");
             }
         }

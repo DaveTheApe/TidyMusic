@@ -9,9 +9,10 @@ namespace TidyMusic
     {
         private string oldFile;
         private string newFile;
+        private Track track;
         public NameFiler(String path)
         {
-            var track = new Track(TagLib.File.Create(path));
+            track = new Track(TagLib.File.Create(path));
             string ext = Path.GetExtension(path);
             oldFile = Path.GetFileName(path);
             newFile = track.ToString() + ext;
@@ -22,6 +23,15 @@ namespace TidyMusic
         public override string ToString()
         {
             return "Renaming: " + oldFile + " -> " + newFile;
+        }
+
+        public void Rename()
+        {
+            if (track.IsValid())
+            {
+                Logger.Out(ToString());
+                //System.IO.File.Move(path, Path.GetDirectoryName(path)+@"\"+newFile);
+            }
         }
     }
 }
