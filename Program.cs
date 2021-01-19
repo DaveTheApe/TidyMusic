@@ -10,17 +10,17 @@ namespace TidyMusic
         static void Main(string[] args)
         {
             String path = "";
-            Console.WriteLine("TidyMusic helps you organize your music library folder-based.");
+            Logger.Out("TidyMusic helps you organize your music library folder-based.");
             do
             {
-                Console.WriteLine("Music library path:");
+                Logger.Out("Music library path:");
                 path = Path.GetFullPath(Console.ReadLine());
             } while (!Directory.Exists(path));
 
             PathDiver pathDiver = new PathDiver(path);
             RenameFiles(pathDiver);
 
-            Console.WriteLine("Done...");
+            Logger.Out("Done...");
             Console.ReadKey();
         }
         
@@ -29,7 +29,7 @@ namespace TidyMusic
             foreach (string f in pathDiver.GetMusicFiles())
             {
                 NameFiler nameFiler = new NameFiler(f);
-                Console.WriteLine(nameFiler.ToString());
+                Logger.Out(nameFiler.ToString());
             }
 
             if (pathDiver.SubDiverIsEmpty())
@@ -39,7 +39,7 @@ namespace TidyMusic
 
             foreach(PathDiver pd in pathDiver.GetSubDiver())
             {
-                Console.WriteLine("Diving in: " + pd.GetDirName());
+                Logger.Out("Diving in: " + pd.GetDirName());
                 RenameFiles(pd);
             }
         }
