@@ -21,6 +21,10 @@ namespace TidyMusic
 
         public override string ToString()
         {
+            if (this.num.Equals("00"))
+            {
+                return this.num + " " + this.artist + " - " + this.title;
+            }
             return this.num + " " + this.artist + " - " + this.title;
         }
 
