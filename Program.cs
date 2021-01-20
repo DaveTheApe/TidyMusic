@@ -30,8 +30,14 @@ namespace TidyMusic
         {
             foreach (string f in pathDiver.GetMusicFiles())
             {
-                NameFiler nameFiler = new NameFiler(f);
-                nameFiler.Rename();
+                try
+                {
+                    NameFiler nameFiler = new NameFiler(f);
+                    nameFiler.Rename();
+                }catch(Exception e)
+                {
+                    Logger.Out("Error File: "+f);
+                }
             }
 
             if (pathDiver.SubDiverIsEmpty())

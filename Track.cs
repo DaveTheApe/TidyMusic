@@ -26,7 +26,7 @@ namespace TidyMusic
 
         public Boolean IsValid()
         {
-            if(artist == null||title == null||album==null||num ==null)
+            if(artist == null || title == null || album==null || num == null)
             {
                 return false;
             }
