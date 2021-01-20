@@ -23,7 +23,7 @@ namespace TidyMusic
         {
             if (this.num.Equals("00"))
             {
-                return this.num + " " + this.artist + " - " + this.title;
+                return this.artist + " - " + this.title;
             }
             return this.num + " " + this.artist + " - " + this.title;
         }
@@ -39,7 +39,7 @@ namespace TidyMusic
 
         private string PrependZero(uint num)
         {
-            if (num.ToString().Length > 1)
+            if (num > 9)
             {
                 return num.ToString();
             }
