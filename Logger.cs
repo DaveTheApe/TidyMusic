@@ -27,9 +27,9 @@ namespace TidyMusic
         public static void RotateLog(string path = "./tidyMusic.log")
         {
 
-            if (File.Exists(path))
+            if (System.IO.File.Exists(path))
             {
-                if (File.Exists(path))
+                if (System.IO.File.Exists(path))
                 {
                     System.IO.File.Delete(path + "_old");
                 }

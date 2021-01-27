@@ -13,6 +13,8 @@ namespace TidyMusic
         public Directory(string p)
         {
             path = p;
+            files = new List<File>();
+            subDirs = new List<Directory>();
             foreach (string d in System.IO.Directory.GetDirectories(path))
             {
                 subDirs.Add(new Directory(d));
@@ -28,9 +30,13 @@ namespace TidyMusic
             var str = new List<string>();
             foreach (File f in files)
                 str.Add(f.GetPath());
-            foreach (Directory d in subDirs)
-                d.GetAllFiles();
             return str.ToArray();
         }
+
+        public List<Directory> GetSubDirs()
+        {
+            return subDirs;
+        }
+
     }
 }

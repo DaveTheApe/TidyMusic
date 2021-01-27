@@ -11,8 +11,15 @@ namespace TidyMusic
 
         public TrackManager(string[] files)
         {
+            tracks = new List<Track>();
             foreach (string f in files)
-                tracks.Add(new Track(f));
+                try
+                {
+                    tracks.Add(new Track(f));
+                }catch(TagLib.CorruptFileException e)
+                {
+
+                }
         }
 
         public string[] RenameFilename()
@@ -27,7 +34,9 @@ namespace TidyMusic
         {
             var str = new List<(string,string)>();
             foreach (Track t in tracks)
-                str.Add((t.GetPath(),string.Concat(t.GetArtist(),@"\",t.GetAlbum(),@"\",t.NameToString())));
+                //sollte nochmal überarbeitet werden
+                if(t.IsValid())
+                    str.Add((t.GetPath(),string.Concat(t.GetArtist(),@"\",t.GetAlbum(),@"\",t.NameToString(),System.IO.Path.GetExtension(t.GetPath()))));
             return str.ToArray();
         }
 

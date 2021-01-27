@@ -12,17 +12,30 @@ namespace TidyMusic
         private List<string> validFiles;
 
 
-        public PathDiver(string p,string[] ext=[ ".mp3", ".wav" ])
+        public PathDiver(string p, string[] ext =null)
         {
+            validFiles = new List<string>();
+            if (ext == null)
+                validExt = new string[] { ".mp3", ".wav" };
             dir = new Directory(p);
             validExt = ext;
-            foreach (string f in dir.GetAllFiles())
-                if (FileIsVaild(f))
-                    validFiles.Add(f);
+            DiveDirectoryTree(dir);
 
         }
 
-        public string[] GetVaildFiles()
+        private void DiveDirectoryTree(Directory subDir)
+        {
+            foreach(string f in subDir.GetAllFiles())
+                if (FileIsVaild(f))
+                    validFiles.Add(f);
+
+            foreach(Directory d in subDir.GetSubDirs())
+            {
+                DiveDirectoryTree(d);
+            }
+        }
+
+        public string[] GetValidFiles()
         {
             return validFiles.ToArray();
         }

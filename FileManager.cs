@@ -7,31 +7,29 @@ namespace TidyMusic
 {
     class FileManager
     {
-        private string[] oldFiles;
-        private string[] newFiles;
-        public FileManager(string[] oldF, string[] newF)
+        private (string,string)[] fileList;
+        private string baseDir;
+        public FileManager((string,string)[] files, string dir)
         {
-            oldFiles = oldF;
-            newFiles = newF;
+            fileList = files;
+            baseDir = dir + @"\";
         }
 
         public void MoveFiles()
         {
-            for(int i=0;i< newFiles.Length;i++)
+            foreach((string,string) pair in fileList)
             {
-                System.IO.File.Move(oldFiles[i],newFiles[i]);
+                CreateFolders(pair.Item2);
+                Logger.Out("Moving File: " + pair.Item1 + " -> " + baseDir + pair.Item2);
+                //System.IO.File.Move(pair.Item1,pair.Item2);
             }
         }
 
-        public void CreateFolders()
+        private void CreateFolders(string f)
         {
-            string parentDir;
-            foreach(string f in newFiles)
-            {
-                parentDir = GetParentDir(f, 1);
-                Logger.Out("Creating Dir: " + parentDir);
-                System.IO.Directory.CreateDirectory(parentDir);
-            }
+            var parentDir = baseDir+GetParentDir(f, 1);
+            Logger.Out("Creating Dir: " + parentDir);
+            //System.IO.Directory.CreateDirectory(parentDir);
         }
 
         public string GetParentDir(string path, int i)

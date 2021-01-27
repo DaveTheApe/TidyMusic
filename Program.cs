@@ -16,42 +16,18 @@ namespace TidyMusic
             {
                 Logger.Out("Music library path:");
                 path = Path.GetFullPath(Console.ReadLine());
-            } while (!Directory.Exists(path));
+            } while (!System.IO.Directory.Exists(path));
 
-            PathDiver pathDiver = new PathDiver(path);
-            RenameFiles(pathDiver);
+            PathDiver pathDiver = new PathDiver(path,new string[]{ ".mp3", ".wav" });
+            TrackManager trackManager = new TrackManager(pathDiver.GetValidFiles());
+            FileManager fileManager = new FileManager(trackManager.GetPathMoveList(), path);
+            fileManager.MoveFiles();
 
             Logger.Out("Done...");
             Logger.SaveLog();
             Console.ReadKey();
         }
         
-        static void RenameFiles(PathDiver pathDiver)
-        {
-            foreach (string f in pathDiver.GetMusicFiles())
-            {
-                try
-                {
-                    FileManager nameFiler = new FileManager(f);
-                    nameFiler.RenameFile();
-                    nameFiler.ReplaceDirName();
-                }catch(Exception e)
-                {
-                    Logger.Out("Error File: "+f);
-                }
-            }
-
-            if (pathDiver.SubDiverIsEmpty())
-            {
-                return;
-            }
-
-            foreach(PathDiver pd in pathDiver.GetSubDiver())
-            {
-                Logger.Out("Diving in: " + pd.GetPath());
-                RenameFiles(pd);
-            }
-        }
 
 
 
