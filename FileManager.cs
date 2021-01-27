@@ -19,17 +19,24 @@ namespace TidyMusic
         {
             foreach((string,string) pair in fileList)
             {
-                CreateFolders(pair.Item2);
-                Logger.Out("Moving File: " + pair.Item1 + " -> " + baseDir + pair.Item2);
-                //System.IO.File.Move(pair.Item1,pair.Item2);
+                var newPath = baseDir + pair.Item2;
+                CreateFolders(newPath);
+                try
+                {
+                    Logger.Out("Moving File: " + pair.Item1 + " -> " + newPath);
+                    System.IO.File.Move(pair.Item1, newPath);
+                }catch(System.IO.IOException e)
+                {
+                    Logger.Out("Error on File: " + pair.Item1 + " -> " + newPath + "Error: "+e.Message);
+                }
             }
         }
 
         private void CreateFolders(string f)
         {
-            var parentDir = baseDir+GetParentDir(f, 1);
+            var parentDir = GetParentDir(f, 1);
             Logger.Out("Creating Dir: " + parentDir);
-            //System.IO.Directory.CreateDirectory(parentDir);
+            System.IO.Directory.CreateDirectory(parentDir);
         }
 
         public string GetParentDir(string path, int i)
