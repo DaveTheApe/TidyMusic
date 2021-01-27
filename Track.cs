@@ -10,16 +10,19 @@ namespace TidyMusic
         private string title;
         private string album;
         private string num;
+        private string path;
         
-        public Track(TagLib.File tfile)
+        public Track(string p)
         {
-            this.artist = tfile.Tag.FirstAlbumArtist;
-            this.title = tfile.Tag.Title;
-            this.album = tfile.Tag.Album;
-            this.num = PrependZero(tfile.Tag.Track);
+            path = p;
+            var tFile = TagLib.File.Create(path);
+            this.artist = tFile.Tag.FirstAlbumArtist;
+            this.title = tFile.Tag.Title;
+            this.album = tFile.Tag.Album;
+            this.num = PrependZero(tFile.Tag.Track);
         }
 
-        public override string ToString()
+        public string NameToString()
         {
             if (this.num.Equals("00"))
             {
@@ -47,6 +50,21 @@ namespace TidyMusic
             {
                 return "0" + num.ToString();
             }
+        }
+
+        public string GetAlbum()
+        {
+            return album;
+        }
+
+        public string GetArtist()
+        {
+            return artist;
+        }
+
+        public string GetPath()
+        {
+            return path;
         }
     }
 }

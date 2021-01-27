@@ -6,74 +6,33 @@ namespace TidyMusic
 {
     class PathDiver
     {
-        private List<PathDiver> subDiver;
-        private List<string> folders;
-        private List<string> mFiles;
-        private static string[] vaildExt = new string[] { ".mp3", ".wav" };
-        private string dirName;
-        private string path;
-        public PathDiver(string path)
-        {
-            dirName = Path.GetDirectoryName(path);
-            this.path = path;
-            subDiver = new List<PathDiver>();
-            foreach(string dir in Directory.GetDirectories(path))
-            {
-                subDiver.Add(new PathDiver(dir));
-            }
-            mFiles = FilterMusicFiles();
-        }
+        
+        private Directory dir;
+        private string[] validExt;
+        private List<string> validFiles;
 
-        private List<string> FilterMusicFiles()
+
+        public PathDiver(string p,string[] ext=[ ".mp3", ".wav" ])
         {
-            List<string> musicFiles = new List<string>();
-            foreach (string f in Directory.GetFiles(path))
-            {
+            dir = new Directory(p);
+            validExt = ext;
+            foreach (string f in dir.GetAllFiles())
                 if (FileIsVaild(f))
-                {
-                    musicFiles.Add(f);
-                }
-            }
-            return musicFiles;
+                    validFiles.Add(f);
+
         }
 
-        public List<string> GetMusicFiles()
+        public string[] GetVaildFiles()
         {
-            return this.mFiles;
-        }
-        public List<string> GetFolders()
-        {
-            return this.folders;
+            return validFiles.ToArray();
         }
 
-        public List<PathDiver> GetSubDiver()
+        private Boolean FileIsVaild(string path)
         {
-            return subDiver;
-        }
-
-        public string GetDirName()
-        {
-            return dirName;
-        }
-        public string GetPath()
-        {
-            return path;
-        }
-
-        public Boolean SubDiverIsEmpty()
-        {
-            return subDiver.Count == 0;
-        }
-
-        public Boolean FileIsVaild(string path)
-        {
-            foreach(string ext in vaildExt)
-            {
+            foreach(string ext in validExt)
                 if (ext.Equals(Path.GetExtension(path)))
-                {
                     return true;
-                }
-            }
+            
             return false;
         }
 

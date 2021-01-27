@@ -32,8 +32,9 @@ namespace TidyMusic
             {
                 try
                 {
-                    NameFiler nameFiler = new NameFiler(f);
-                    nameFiler.Rename();
+                    FileManager nameFiler = new FileManager(f);
+                    nameFiler.RenameFile();
+                    nameFiler.ReplaceDirName();
                 }catch(Exception e)
                 {
                     Logger.Out("Error File: "+f);
